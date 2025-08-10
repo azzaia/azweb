@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Universe</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #fce1ef, #fff1f7);
+      color: #333;
+      line-height: 1.6;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+    .top-bar {
+      background-color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 22px;
+      color: #d25e98;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      margin-left: 25px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #cc0066;
+    }
+
+    header {
+      padding: 80px 10%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .hero-text {
+      max-width: 600px;
+      flex: 1 1 320px;
+    }
+
+    .hero-text p:first-child {
+      color: #cc0066;
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-style: italic;
+      font-size: 18px;
+    }
+
+    .hero-text h1 {
+      font-size: 38px;
+      color: #111;
+      margin-bottom: 20px;
+    }
+
+    .hero-text h1 em {
+      color: #cc0066;
+      font-style: normal;
+    }
+
+    .hero-text p {
+      font-size: 17px;
+      color: #444;
+    }
+
+    .discover-btn {
+      margin-top: 20px;
+      padding: 12px 32px;
+      background: linear-gradient(135deg, #d63384, #e75480);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(204, 0, 102, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .discover-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(204, 0, 102, 0.4);
+    }
+
+    .flip-box {
+      width: 320px;
+      height: 400px;
+      perspective: 1000px;
+      cursor: pointer;
+      flex: 1 1 280px;
+    }
+
+    .flip-box-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-box.flipped .flip-box-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-box-front, .flip-box-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .flip-box-front img, .flip-box-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .flip-box-back {
+      transform: rotateY(180deg);
+    }
+
+    section {
+      padding: 80px 10%;
+      margin-bottom: 60px;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(255, 170, 200, 0.15);
+      border: 1px solid rgba(255, 192, 203, 0.2);
+      transition: all 0.3s ease-in-out;
+    }
+
+    section:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(255, 170, 200, 0.25);
+    }
+
+    h2 {
+      font-size: 30px;
+      color: #cc0066;
+      margin-bottom: 20px;
+    }
+
+    section img {
+      max-width: 100%;
+      height: auto;
+      border: 4px solid #fff0f5;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(204, 0, 102, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    section img:hover {
+      transform: scale(1.03) rotate(1deg);
+    }
+
+    #about {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+    }
+
+    #about h2 {
+      width: 100%;
+    }
+
+    #about p {
+      flex: 1;
+      font-size: 18px;
+      color: #4a3b4d;
+      line-height: 1.6;
+    }
+
+    #interests {
+      display: block;
+    }
+
+    #interests .interests-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    #interests .interests-content p {
+      flex: 1;
+      font-size: 18px;
+      color: #4a3b4d;
+      line-height: 1.6;
+    }
+
+    #interests .interests-content img {
+      flex: 1;
+      max-width: 400px;
+      height: auto;
+      border: 4px solid #fff0f5;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(204, 0, 102, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 14px;
+      color: #7a5c7a;
+      border-top: 1px solid #e4c0d0;
+      margin-top: 60px;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        padding: 40px 8%;
+      }
+
+      .flip-box {
+        width: 260px;
+        height: 340px;
+      }
+
+      #about {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      #about img {
+        width: 100%;
+        height: auto;
+      }
+
+      #interests .interests-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      #interests .interests-content img {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="title">Welcome to My Universe</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#about">About Me</a>
+      <a href="#interests">Hobbies</a>
+      <a href="#experience">Experience</a>
+    </nav>
+  </div>
+
+  <header>
+    <div class="hero-text">
+      <p>Hello, I'm Azzaya.</p>
+      <h1>Let Me <em>Tell You My Story</em></h1>
+      <p>
+        Welcome to my personal corner of the internet — a space where creativity,
+        curiosity, and a love for storytelling come together. I'm excited to share
+        my journey, passions, and the work that inspires me.
+      </p>
+      <button class="discover-btn" onclick="scrollToAbout()">Discover More</button>
+    </div>
+
+    <div class="flip-box" onclick="flipCard(this)">
+      <div class="flip-box-inner">
+        <div class="flip-box-front">
+          <img src="surteitsetseg.jpg" alt="Front Image">
+        </div>
+        <div class="flip-box-back">
+          <img src="nudhamar.jpg" alt="Back Image">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <img src="aza.jpg" alt="About Me Image" width="400" height="400" />
+    <p>
+      I would love to share a bit about who I am. My name is Azzaya. I come from Khövsgöl province, and I’m 17 years old.
+      I’m someone who loves learning and growing every day. I enjoy trying new experiences,
+      and I’m passionate about studying psychology. I believe in working hard but also having fun along the way.
+      Nice to meet you!
+    </p>
+  </section>
+
+  <section id="interests">
+    <h2>Hobbies</h2>
+    <div class="interests-content">
+      <p>
+        In my free time, I enjoy keeping a personal journal, which allows me to organize my thoughts,
+         track my growth, and reflect deeply on my experiences. This practice helps me develop strong 
+         writing skills and self-discipline. Additionally, I create collages by combining various images
+          and materials to tell a story or express complex ideas visually. This hobby sharpens my creativity, 
+          attention to detail, and design thinking. Both activities foster patience, focus, and the ability 
+          to communicate clearly—qualities that enhance my professional work and personal development, and 
+          cozy weekends with a book and tea.
+        Creativity and mindfulness shape how I live and grow.
+      </p>
+      <img src="hobbi.jpg" alt="Hobbies" width="300">
+    </div>
+  </section>
+
+  <footer>© 2025 Personal Website. Made with ❤️ by Azzaya.</footer>
+
+  <script>
+    function scrollToAbout() {
+      document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function flipCard(element) {
+      element.classList.toggle('flipped');
+    }
+  </script>
+</body>
+</html>
+
